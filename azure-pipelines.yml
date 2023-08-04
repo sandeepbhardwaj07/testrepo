@@ -6,14 +6,38 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+  - stage: 'Build'
+    jobs:
+    - job: Build1
+      steps:
+      - task: ServiceNow-DevOps-Agent-Job-Notification@1
+        inputs:
+          connectedServiceName: 'ServiceNow DevOps Conn'
+          upstream: 'Build1'
+          Phase: 'STARTED'
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your commands here
+            
+            echo 'Hello world'
+      - task: ServiceNow-DevOps-Agent-Job-Notification@1
+        inputs:
+          connectedServiceName: 'ServiceNow DevOps Conn'
+          Phase: 'COMPLETED'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+#pool:
+#  vmImage: ubuntu-latest
+
+
+#steps:
+#- script: echo Hello, world!
+#  displayName: 'Run a one-line script'
+
+#- script: |
+#    echo Add other tasks to build, test, and deploy your project.
+$    echo See https://aka.ms/yaml
+#  displayName: 'Run a multi-line script'
